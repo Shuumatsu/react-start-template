@@ -1,0 +1,1 @@
+const paths = require('./paths')
