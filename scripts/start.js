@@ -14,6 +14,12 @@ const serverConfig = require('../config/webpack.config.server')
 require('dotenv').config({ path: paths.dotenv })
 process.env.NODE_ENV = process.env.NODE_ENV || 'development'
 
+const processEnvForDefinePlugin = {}
+for (let key in process.env) processEnvForDefinePlugin[key] = JSON.stringify(process.env[key])
+config.plugins.unshift(new webpack.DefinePlugin({
+  'process.env': processEnvForDefinePlugin
+}))
+
 const defaultPort = parseInt(process.env.PORT, 10) || 9000
 
 const handleCompile = (err, stats) => {

@@ -9,11 +9,17 @@ const config = require('../config/webpack.config.prod')
 require('dotenv').config({ path: paths.dotenv })
 process.env.NODE_ENV = process.env.NODE_ENV || 'production'
 config.output.publicPath = process.env.SERVED_PATH || config.output.publicPath
+
+const processEnvForDefinePlugin = {}
+for (let key in process.env) processEnvForDefinePlugin[key] = JSON.stringify(process.env[key])
 config.plugins.unshift(new webpack.DefinePlugin({
-  'process.env': {
-    NODE_ENV: JSON.stringify(process.env.NODE_ENV)
-  }
+  'process.env': processEnvForDefinePlugin
 }))
+// config.plugins.unshift(new webpack.DefinePlugin({
+//   'process.env': {
+//     NODE_ENV: JSON.stringify(process.env.NODE_ENV)
+//   }
+// }))
 
 fs.removeSync(paths.appBuild)
 fs.copySync(paths.appPublic, paths.appBuild, {
