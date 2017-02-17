@@ -1,9 +1,5 @@
 {
   "presets": [
-    "react-app"
-  ],
-  "plugins": [
-    "transform-decorators-legacy",
-    "syntax-dynamic-import"
+    "react-hot-reload"
   ]
 }

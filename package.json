@@ -1,18 +1,18 @@
 {
   "scripts": {
     "start": "node scripts/start.js",
-    "build": "webpack --config config/webpack.config.dev.js"
+    "build": "node scripts/build.js",
+    "temp": "NODE_ENV=development webpack-dev-server --config config/webpack.config.dev.js"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.3",
     "babel-core": "^6.23.1",
     "babel-eslint": "^7.1.1",
     "babel-loader": "^6.3.0",
-    "babel-plugin-syntax-dynamic-import": "^6.18.0",
-    "babel-plugin-transform-decorators-legacy": "^1.3.4",
-    "babel-preset-react-app": "^2.1.0",
+    "babel-preset-react-hot-reload": "^0.2.4",
     "chalk": "^1.1.3",
     "css-loader": "^0.26.1",
+    "cssnano": "^3.10.0",
     "detect-port": "^1.1.0",
     "dotenv": "^4.0.0",
     "eslint": "^3.15.0",
@@ -22,7 +22,11 @@
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-react": "^6.9.0",
+    "extract-text-webpack-plugin": "^2.0.0-rc.3",
     "file-loader": "^0.10.0",
+    "fs-extra": "^2.0.0",
+    "gzip-size": "^3.0.0",
+    "html-webpack-plugin": "^2.28.0",
     "json-loader": "^0.5.4",
     "open": "^0.0.5",
     "postcss-cssnext": "^2.9.0",
@@ -31,13 +35,17 @@
     "react-hot-loader": "next",
     "style-loader": "^0.13.1",
     "terminal-clear": "^0.1.0",
+    "uglify-js": "^2.7.5",
+    "uglifyjs-webpack-plugin": "^0.1.5",
     "url-loader": "^0.5.7",
     "webpack": "^2.2.1",
     "webpack-dev-server": "^2.3.0"
   },
   "dependencies": {
     "lodash": "^4.17.4",
+    "normalize.css": "^5.0.0",
     "react": "^15.4.2",
-    "react-dom": "^15.4.2"
+    "react-dom": "^15.4.2",
+    "react-router": "^3.0.2"
   }
 }

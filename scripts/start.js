@@ -11,8 +11,8 @@ const paths = require('../config/paths')
 const config = require('../config/webpack.config.dev')
 const serverConfig = require('../config/webpack.config.server')
 
-process.env.NODE_ENV = 'development'
 require('dotenv').config({ path: paths.dotenv })
+process.env.NODE_ENV = process.env.NODE_ENV || 'development'
 
 const defaultPort = parseInt(process.env.PORT, 10) || 9000
 
@@ -77,13 +77,13 @@ const runDevServer = port => {
   const entries = [
     'react-hot-loader/patch',
     `webpack-dev-server/client?https://localhost:${port}`,
-    'webpack/hot/only-dev-server',
+    'webpack/hot/only-dev-server'
   ]
   config.entry = entries.concat(config.entry)
-  
+
   const compiler = setupCompiler(port)
   const devServer = new WebpackDevServer(compiler, serverConfig)
-  devServer.use(devServer.middleware)
+  // devServer.use(devServer.middleware)
 
   devServer.listen(port, (err, result) => {
     if (err) {

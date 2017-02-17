@@ -1,4 +1,3 @@
-const autoprefixer = require('autoprefixer')
 const cssnext = require('postcss-cssnext')
 
 module.exports = {

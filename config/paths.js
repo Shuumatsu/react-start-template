@@ -8,5 +8,8 @@ module.exports = {
   appPublic: appPathResolve('public'),
   appSrc: appPathResolve('src'),
   appIndexJs: appPathResolve('src/index.js'),
+  // appEjs: appPathResolve('public/index.ejs'),
+  appHtml: appPathResolve('public/index.html'),
+  servedPath: '',
   dotenv: appPathResolve('.env')
 }

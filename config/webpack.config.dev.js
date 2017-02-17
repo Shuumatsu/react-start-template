@@ -1,4 +1,5 @@
 const webpack = require('webpack')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 const paths = require('./paths')
 const postcssConfig = require('./postcss.config.dev')
 
@@ -9,7 +10,7 @@ module.exports = {
   output: {
     path: paths.appBuild,
     pathinfo: true,
-    filename: 'assets/js/bundle.js'
+    filename: 'static/js/bundle.js'
   },
   resolve: {
     extensions: ['.js', '.jsx'],
@@ -51,12 +52,14 @@ module.exports = {
       },
       {
         test: /\.css$/,
+        include: paths.appSrc,
         use: [
           { loader: 'style-loader' },
           {
             loader: 'css-loader',
             options: {
-              importLoaders: 1
+              importLoaders: 1,
+              module: true
             }
           },
           {
@@ -66,13 +69,27 @@ module.exports = {
         ]
       },
       {
+        test: /\.css$/,
+        exclude: paths.appSrc,
+        use: [
+          { loader: 'style-loader' },
+          { loader: 'css-loader' }
+        ]
+      },
+      {
         test: /\.svg$/,
         use: [{ loader: 'file-loader', options: { name: 'static/media/[name].[hash:8].[ext]' } }]
       }
     ]
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
+    // prints more readable module names in the browser console on HMR updates
+    new webpack.NamedModulesPlugin(),
+    new HtmlWebpackPlugin({
+      inject: true,
+      template: paths.appHtml,
+    })
   ],
   devtool: 'cheap-module-source-map'
 }
