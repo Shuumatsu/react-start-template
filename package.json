@@ -8,7 +8,7 @@
     "babel-core": "^6.23.1",
     "babel-eslint": "^7.1.1",
     "babel-loader": "^6.3.0",
-    "babel-preset-react-hot-reload": "^0.2.4",
+    "babel-preset-react-hot-reload": "^0.3.0",
     "chalk": "^1.1.3",
     "css-loader": "^0.26.1",
     "cssnano": "^3.10.0",
