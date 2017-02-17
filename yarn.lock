@@ -487,16 +487,7 @@ babel-plugin-transform-async-to-generator@^6.22.0, babel-plugin-transform-async-
     babel-plugin-syntax-async-functions "^6.8.0"
     babel-runtime "^6.22.0"
 
-babel-plugin-transform-class-properties@^6.22.0:
-  version "6.22.0"
-  resolved "https://registry.yarnpkg.com/babel-plugin-transform-class-properties/-/babel-plugin-transform-class-properties-6.22.0.tgz#aa78f8134495c7de06c097118ba061844e1dc1d8"
-  dependencies:
-    babel-helper-function-name "^6.22.0"
-    babel-plugin-syntax-class-properties "^6.8.0"
-    babel-runtime "^6.22.0"
-    babel-template "^6.22.0"
-
-babel-plugin-transform-class-properties@^6.23.0:
+babel-plugin-transform-class-properties@^6.22.0, babel-plugin-transform-class-properties@^6.23.0:
   version "6.23.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-transform-class-properties/-/babel-plugin-transform-class-properties-6.23.0.tgz#187b747ee404399013563c993db038f34754ac3b"
   dependencies:
@@ -747,6 +738,12 @@ babel-plugin-transform-regenerator@^6.6.0:
   dependencies:
     regenerator-transform "0.9.8"
 
+babel-plugin-transform-runtime@^6.23.0:
+  version "6.23.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-transform-runtime/-/babel-plugin-transform-runtime-6.23.0.tgz#88490d446502ea9b8e7efb0fe09ec4d99479b1ee"
+  dependencies:
+    babel-runtime "^6.22.0"
+
 babel-plugin-transform-strict-mode@^6.22.0:
   version "6.22.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-transform-strict-mode/-/babel-plugin-transform-strict-mode-6.22.0.tgz#e008df01340fdc87e959da65991b7e05970c8c7c"
@@ -793,12 +790,13 @@ babel-preset-flow@^6.23.0:
   dependencies:
     babel-plugin-transform-flow-strip-types "^6.22.0"
 
-babel-preset-react-hot-reload@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/babel-preset-react-hot-reload/-/babel-preset-react-hot-reload-0.3.0.tgz#b4d1eaa3476038d65b63530d4e10e940cd2a5b7e"
+babel-preset-react-hot-reload@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/babel-preset-react-hot-reload/-/babel-preset-react-hot-reload-0.4.0.tgz#cd3f94c6300641f2334029f073aeeac90d328513"
   dependencies:
     babel-plugin-transform-class-properties "^6.23.0"
     babel-plugin-transform-decorators-legacy "^1.3.4"
+    babel-plugin-transform-runtime "^6.23.0"
     babel-preset-env "^1.1.8"
     babel-preset-react "^6.23.0"
     babel-preset-stage-2 "^6.22.0"
