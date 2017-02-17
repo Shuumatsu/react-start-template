@@ -36,5 +36,9 @@ jspm_packages
 # Optional REPL history
 .node_repl_history
 
-
-src
+# misc
+.DS_Store
+.env
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
