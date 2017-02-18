@@ -1,25 +1,21 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { AppContainer } from 'react-hot-loader'
-// AppContainer is a necessary wrapper component for HMR
-import 'normalize.css'
+import { AppContainer } from 'react-hot-loader' // AppContainer is a necessary wrapper component for HMR
 
 import App from './App'
 
-const render = (Component) => {
+const render = () => {
   ReactDOM.render(
     <AppContainer>
-      <Component />
-    </AppContainer>,
-    document.getElementById('root')
+      <App />
+    </AppContainer>
+    , document.querySelector('#root')
   )
 }
 
-render(App)
+render()
 
 // Hot Module Replacement API
 if (module.hot) {
-  module.hot.accept('./App', () => {
-    render(App)
-  })
+  module.hot.accept('./App', render)
 }
