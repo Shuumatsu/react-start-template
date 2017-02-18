@@ -10,6 +10,6 @@ module.exports = {
   appIndexJs: appPathResolve('src/index.js'),
   // appEjs: appPathResolve('public/index.ejs'),
   appHtml: appPathResolve('public/index.html'),
-  servedPath: '',
+  servedPath: '/',
   dotenv: appPathResolve('.env')
 }
