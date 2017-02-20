@@ -9,6 +9,7 @@ module.exports = {
   ],
   output: {
     path: paths.appBuild,
+    publicPath: '/',
     pathinfo: true,
     filename: 'static/js/bundle.js'
   },
