@@ -49,8 +49,14 @@ module.exports = {
       },
       {
         test: /\.(js|jsx)$/,
-        use: [{ loader: 'babel-loader', options: { cacheDirectory: true } }],
+        exclude: /-worker\.js$/,
         include: paths.appSrc,
+        use: [{ loader: 'babel-loader', options: { cacheDirectory: true } }]
+      },
+      {
+        test: /-worker\.js$/,
+        include: paths.appSrc,
+        use: [{ loader: 'babel-loader' }, { loader: 'worker-loader' }],
       },
       {
         test: /\.json$/,
