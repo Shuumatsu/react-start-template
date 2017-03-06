@@ -1,12 +1,50 @@
-# react-start-template
-react start template
+Create React apps with no build configuration.
 
-webpack: [webpack2](https://webpack.js.org)
+### Creating an App
 
-babelrc: [babel-preset-react-hot-reload](https://github.com/VanishingDante/babel-preset-react-hot-reload)
+```
+npm install -g clone-react-template
 
-postcss: [postcss](http://postcss.org/)
+clone-react-template my-app
+cd my-app/
+npm install && npm start
+```
 
-### Features
-`import().then` support
-`react-hot-loader` support
+Then open [https://localhost:3000/](https://localhost:3000/) to see your app.
+
+When you’re ready to deploy to production, create a minified bundle with npm run build.
+
+It will create a directory called my-app inside the current folder.
+
+Inside that directory, it will generate the initial project structure:
+
+```
+my-app/
+  README.md
+  config/
+  scritps/
+  package.json
+  .gitignore
+  public/
+    favicon.ico
+    index.html
+  src/
+    actions/
+    reducers/
+    routes/
+    selectors/
+    store/
+    DevTools.js
+    index.dev.js
+    index.js
+    index.prod.js
+```
+
+### features
+
+- react-hot-loader
+- async/await
+- decorator
+- postcss
+- redux
+- react-router-dom
