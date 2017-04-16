@@ -1,4 +1,5 @@
 const webpack = require('webpack')
+const CompressionPlugin = require("compression-webpack-plugin")
 const ExtractTextPlugin = require("extract-text-webpack-plugin")
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
@@ -132,6 +133,12 @@ module.exports = {
         comments: false,
         screw_ie8: true
       }
+    }),
+    new CompressionPlugin({
+      asset: "[path].gz",
+      algorithm: "gzip",
+      test: /\.js$|\.html|\.css$/,
+      minRatio: 0.8
     })
   ]
 }

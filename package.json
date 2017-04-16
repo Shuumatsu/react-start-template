@@ -9,6 +9,7 @@
     "babel-loader": "^6.4.1",
     "babel-preset-react-hot-reload": "^0.4.0",
     "chalk": "^1.1.3",
+    "compression-webpack-plugin": "^0.4.0",
     "css-loader": "^0.28.0",
     "cssnano": "^3.10.0",
     "detect-port": "^1.1.1",
