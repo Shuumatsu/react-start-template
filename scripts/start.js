@@ -2,10 +2,8 @@ const webpack = require('webpack')
 const WebpackDevServer = require('webpack-dev-server')
 const clear = require('terminal-clear')
 const chalk = require('chalk')
-// const open = require('open')
 const open = require('react-dev-utils/openBrowser')
 const getProcessForPort = require('react-dev-utils/getProcessForPort')
-const prompt = require('react-dev-utils/prompt')
 const detect = require('detect-port')
 const paths = require('../config/paths')
 const config = require('../config/webpack.config.dev')
@@ -105,18 +103,20 @@ const runDevServer = port => {
   })
 }
 
-detect(defaultPort).then(port => {
-  if (port === defaultPort) {
-    runDevServer(port)
-    return
-  }
+// detect(defaultPort).then(port => {
+//   if (port === defaultPort) {
+//     runDevServer(port)
+//     return
+//   }
 
-  clear()
+//   clear()
 
-  const existingProcess = getProcessForPort(defaultPort)
-  const question = chalk.yellow(`Default port ${defaultPort} is in use. ${existingProcess ? `Probably: ${existingProcess}. ` : ''}Change to another port?`.trim())
+//   const existingProcess = getProcessForPort(defaultPort)
+//   const question = chalk.yellow(`Default port ${defaultPort} is in use. ${existingProcess ? `Probably: ${existingProcess}. ` : ''}Change to another port?`.trim())
 
-  prompt(question, true).then(change => {
-    change && runDevServer(port)
-  })
-})
+//   prompt(question, true).then(change => {
+//     change && runDevServer(port)
+//   })
+// })
+
+detect(defaultPort).then(port => runDevServer(port))
