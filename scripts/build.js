@@ -8,7 +8,7 @@ const config = require('../config/webpack.config.prod')
 
 require('dotenv').config({ path: paths.dotenv })
 process.env.NODE_ENV = process.env.NODE_ENV || 'production'
-config.output.publicPath = process.env.SERVED_PATH || config.output.publicPath
+// config.output.publicPath = process.env.SERVED_PATH || config.output.publicPath
 
 const processEnvForDefinePlugin = {}
 for (let key in process.env) processEnvForDefinePlugin[key] = JSON.stringify(process.env[key])

@@ -18,8 +18,6 @@ config.plugins.unshift(new webpack.DefinePlugin({
   'process.env': processEnvForDefinePlugin
 }))
 
-const defaultPort = parseInt(process.env.PORT, 10) || 9000
-
 const handleCompile = (err, stats) => {
   clear()
 
@@ -37,10 +35,7 @@ const handleCompile = (err, stats) => {
 }
 
 const setupCompiler = port => {
-  // const compiler = webpack(config, handleCompile)
   const compiler = webpack(config)
-
-  // compiler.watch({}, handleCompile)
 
   compiler.plugin('invalid', () => {
     clear()
@@ -87,7 +82,6 @@ const runDevServer = port => {
 
   const compiler = setupCompiler(port)
   const devServer = new WebpackDevServer(compiler, serverConfig)
-  // devServer.use(devServer.middleware)
 
   devServer.listen(port, (err, result) => {
     if (err) {
@@ -103,20 +97,5 @@ const runDevServer = port => {
   })
 }
 
-// detect(defaultPort).then(port => {
-//   if (port === defaultPort) {
-//     runDevServer(port)
-//     return
-//   }
-
-//   clear()
-
-//   const existingProcess = getProcessForPort(defaultPort)
-//   const question = chalk.yellow(`Default port ${defaultPort} is in use. ${existingProcess ? `Probably: ${existingProcess}. ` : ''}Change to another port?`.trim())
-
-//   prompt(question, true).then(change => {
-//     change && runDevServer(port)
-//   })
-// })
-
+const defaultPort = parseInt(process.env.PORT, 10) || 9000
 detect(defaultPort).then(port => runDevServer(port))
