@@ -65,7 +65,7 @@ const setupCompiler = port => {
 
     console.log(chalk.green('Compiled successfully!'))
     console.log('\nThe app is running at:\n')
-    console.log(chalk.cyan(`  https://localhost:${port}\n`))
+    console.log(chalk.cyan(`  http://localhost:${port}\n`))
     console.log('Note that the development build is not optimized.\n')
   })
 
@@ -75,7 +75,7 @@ const setupCompiler = port => {
 const runDevServer = port => {
   const entries = [
     'react-hot-loader/patch',
-    `webpack-dev-server/client?https://localhost:${port}`,
+    `webpack-dev-server/client?http://localhost:${port}`,
     'webpack/hot/only-dev-server'
   ]
   config.entry = entries.concat(config.entry)
@@ -93,7 +93,7 @@ const runDevServer = port => {
 
     console.log(chalk.magenta('Starting the development server...'))
 
-    open(`https://localhost:${port}`)
+    open(`http://localhost:${port}`)
   })
 }
 

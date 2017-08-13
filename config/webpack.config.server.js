@@ -8,7 +8,6 @@ module.exports = {
   clientLogLevel: 'none',
   quiet: true,
   hot: true,
-  https: true,
   watchOptions: {
     ignored: /node_modules/
   }

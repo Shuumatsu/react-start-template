@@ -1,6 +1,5 @@
-const webpack = require('webpack')
-const CompressionPlugin = require("compression-webpack-plugin")
-const ExtractTextPlugin = require("extract-text-webpack-plugin")
+const CompressionPlugin = require('compression-webpack-plugin')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const paths = require('./paths')
@@ -67,7 +66,7 @@ module.exports = {
         test: /\.css$/,
         include: paths.appSrc,
         use: ExtractTextPlugin.extract({
-          fallback: "style-loader",
+          fallback: 'style-loader',
           use: [
             {
               loader: 'css-loader',
@@ -87,7 +86,7 @@ module.exports = {
         test: /\.css$/,
         exclude: paths.appSrc,
         use: ExtractTextPlugin.extract({
-          fallback: "style-loader",
+          fallback: 'style-loader',
           use: [
             { loader: 'css-loader' },
             {
@@ -122,21 +121,19 @@ module.exports = {
       }
     }),
     new UglifyJSPlugin({
-      compress: {
-        screw_ie8: true, // React doesn't support IE8
-        warnings: false
-      },
-      mangle: {
-        screw_ie8: true
-      },
-      output: {
-        comments: false,
-        screw_ie8: true
+      uglifyOptions: {
+        compress: {
+          dead_code: true,
+          drop_debugger: true,
+        },
+        output: {
+          comments: false
+        }
       }
     }),
     new CompressionPlugin({
-      asset: "[path].gz",
-      algorithm: "gzip",
+      asset: '[path].gz',
+      algorithm: 'gzip',
       test: /\.js$|\.html|\.css$/,
       minRatio: 0.8
     })

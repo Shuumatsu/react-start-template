@@ -1,5 +1,31 @@
 {
   "presets": [
-    "react-hot-reload"
-  ]
+    "react",
+    [
+      "env",
+      {
+        "targets": {
+          "browsers": [
+            "last 4 Chrome versions"
+          ]
+        }
+      }
+    ],
+    "stage-2"
+  ],
+  "plugins": [
+    "transform-decorators-legacy"
+  ],
+  "env": {
+    "development": {
+      "plugins": [
+        "react-hot-loader/babel"
+      ]
+    },
+    "production": {
+      "presets": [
+        "minify"
+      ]
+    }
+  }
 }
