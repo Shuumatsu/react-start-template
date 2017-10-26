@@ -1,5 +1,5 @@
 const path = require('path')
-const fs = require('fs-extra')
+const fsExtra = require('fs-extra')
 const webpack = require('webpack')
 const chalk = require('chalk')
 const gzipSize = require('gzip-size')
@@ -8,31 +8,26 @@ const config = require('../config/webpack.config.prod')
 
 require('dotenv').config({ path: paths.dotenv })
 process.env.NODE_ENV = process.env.NODE_ENV || 'production'
-// config.output.publicPath = process.env.SERVED_PATH || config.output.publicPath
 
 const processEnvForDefinePlugin = {}
 for (let key in process.env) processEnvForDefinePlugin[key] = JSON.stringify(process.env[key])
 config.plugins.unshift(new webpack.DefinePlugin({
   'process.env': processEnvForDefinePlugin
 }))
-// config.plugins.unshift(new webpack.DefinePlugin({
-//   'process.env': {
-//     NODE_ENV: JSON.stringify(process.env.NODE_ENV)
-//   }
-// }))
 
-fs.removeSync(paths.appBuild)
-fs.copySync(paths.appPublic, paths.appBuild, {
+
+fsExtra.removeSync(paths.build)
+fsExtra.copySync(paths.public, paths.build, {
   dereference: true,
-  filter: file => file !== paths.appHtml
+  filter: file => file !== paths.html
 })
 
 const printAssets = assets => {
   // const maxNameLength = Math.max.apply(null, assets.map(asset => asset.name.length))
   console.log()
   assets.forEach(asset => {
-    const filePath = path.resolve(paths.appBuild, asset.name)
-    const content = fs.readFileSync(filePath)
+    const filePath = path.resolve(paths.build, asset.name)
+    const content = fsExtra.readFileSync(filePath)
     const gzippedSize = gzipSize.sync(content)
 
     let dirname = path.dirname(asset.name)

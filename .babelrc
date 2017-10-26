@@ -1,16 +1,6 @@
 {
   "presets": [
     "react",
-    [
-      "env",
-      {
-        "targets": {
-          "browsers": [
-            "last 4 Chrome versions"
-          ]
-        }
-      }
-    ],
     "stage-2"
   ],
   "plugins": [
@@ -18,13 +8,50 @@
   ],
   "env": {
     "development": {
+      "presets": [
+        [
+          "env",
+          {
+            "targets": {
+              "browsers": [
+                "last 2 Chrome versions"
+              ]
+            },
+            "spec": true,
+            "modules": false
+          }
+        ]
+      ],
       "plugins": [
-        "react-hot-loader/babel"
+        "transform-react-jsx-source"
       ]
     },
     "production": {
       "presets": [
-        "minify"
+        [
+          "env",
+          {
+            "targets": {
+              "browsers": [
+                "ie >= 10"
+              ]
+            },
+            "spec": true,
+            "modules": false
+          }
+        ]
+      ],
+      "plugins": [
+        "transform-class-properties",
+        [
+          "transform-runtime",
+          {
+            "helpers": false,
+            "polyfill": false,
+            "regenerator": true,
+            "moduleName": "babel-runtime"
+          }
+        ]
       ]
     }
   }

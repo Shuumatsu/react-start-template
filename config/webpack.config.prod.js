@@ -1,112 +1,82 @@
 const CompressionPlugin = require('compression-webpack-plugin')
+const MinifyPlugin = require('babel-minify-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
-const paths = require('./paths')
 const postcssConfig = require('./postcss.config.prod')
+const paths = require('./paths')
 
 module.exports = {
-  bail: true,
-  devtool: 'source-map',
   entry: {
-    app: paths.appIndexJs
+    ...paths.entries,
   },
   output: {
-    path: paths.appBuild,
+    path: paths.build,
     publicPath: paths.servedPath,
     pathinfo: true,
-    filename: 'static/js/[name].[chunkhash:8].js',
-    chunkFilename: 'static/js/[name].[chunkhash:8].chunk.js',
+    filename: 'static/js/[name].[hash].js',
   },
   resolve: {
-    extensions: ['.js', '.jsx'],
+    extensions: ['.js', '.jsx', '.json'],
   },
   module: {
-    rules: [
-      {
-        test: /\.(js|jsx)$/,
-        use: [{ loader: 'eslint-loader' }],
-        include: paths.appSrc,
-        enforce: 'pre'
-      },
-      {
-        exclude: [
-          /\.html$/,
-          /\.(js|jsx)$/,
-          /\.css$/,
-          /\.json$/,
-          /\.svg$/
-        ],
+    rules: [{
+      test: /\.(js|jsx)$/,
+      use: [{ loader: 'eslint-loader' }],
+      include: paths.appSrc,
+      enforce: 'pre'
+    }, {
+      test: /\.json$/,
+      use: [{ loader: 'json-loader' }]
+    }, {
+      test: /-worker\.js$/,
+      include: paths.appSrc,
+      use: [{ loader: 'babel-loader' }, { loader: 'worker-loader' }],
+    }, {
+      test: /\.(js|jsx)$/,
+      exclude: /-worker\.js$/,
+      include: paths.appSrc,
+      use: [{ loader: 'babel-loader', options: { cacheDirectory: true } }]
+    }, {
+      test: /\.less$/,
+      use: ExtractTextPlugin.extract({
+        fallback: 'style-loader',
         use: [
-          {
-            loader: 'url-loader',
-            options: {
-              limit: 10000,
-              name: 'static/media/[name].[hash:8].[ext]'
-            }
-          }
+          { loader: 'css-loader' },
+          { loader: 'less-loader' }
         ]
-      },
-      {
-        test: /\.(js|jsx)$/,
-        exclude: /-worker\.js$/,
-        include: paths.appSrc,
-        use: [{ loader: 'babel-loader', options: { cacheDirectory: true } }]
-      },
-      {
-        test: /-worker\.js$/,
-        include: paths.appSrc,
-        use: [{ loader: 'babel-loader' }, { loader: 'worker-loader' }],
-      },
-      {
-        test: /\.json$/,
-        use: [{ loader: 'json-loader' }]
-      },
-      {
-        test: /\.css$/,
-        include: paths.appSrc,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            {
-              loader: 'css-loader',
-              options: {
-                importLoaders: 1,
-                module: true
-              }
-            },
-            {
-              loader: 'postcss-loader',
-              options: postcssConfig
-            }
-          ]
-        })
-      },
-      {
-        test: /\.css$/,
-        exclude: paths.appSrc,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            { loader: 'css-loader' },
-            {
-              loader: 'postcss-loader',
-              options: postcssConfig
-            }
-          ]
-        })
-      },
-      {
-        test: /\.svg$/,
-        use: [{ loader: 'file-loader', options: { name: 'static/media/[name].[hash:8].[ext]' } }]
-      }
-    ]
+      })
+    }, {
+      test: /\.module.css$/,
+      include: paths.appSrc,
+      use: ExtractTextPlugin.extract({
+        fallback: 'style-loader',
+        use: [
+          { loader: 'css-loader', options: { importLoaders: 1, module: true } },
+          { loader: 'postcss-loader', options: postcssConfig }
+        ]
+      })
+    }, {
+      test: /\.css$/,
+      use: ExtractTextPlugin.extract({
+        fallback: 'style-loader',
+        use: [{ loader: 'css-loader' }]
+      })
+    }, {
+      test: /\.(jpg|png|svg)$/,
+      use: [{ loader: 'file-loader', options: { name: 'static/media/[name].[hash:8].[ext]' } }]
+    }]
   },
   plugins: [
-    new ExtractTextPlugin('static/css/[name].[contenthash:8].css'),
+    new MinifyPlugin({}, { comments: false }),
+    new webpack.optimize.CommonsChunkPlugin({
+      children: true,
+      async: true,
+      minChunks: 3,
+    }),
     new HtmlWebpackPlugin({
       inject: true,
-      template: paths.appHtml,
+      template: paths.html,
       minify: {
         removeComments: true,
         collapseWhitespace: true,
@@ -118,17 +88,14 @@ module.exports = {
         minifyJS: true,
         minifyCSS: true,
         minifyURLs: true
-      }
-    }),
-    new UglifyJSPlugin({
-      uglifyOptions: {
-        compress: {
-          dead_code: true,
-          drop_debugger: true,
-        },
-        output: {
-          comments: false
-        }
+      },
+      chunksSortMode: (chunk1, chunk2) => {
+        const list = ['polyfills', 'vendor', 'app']
+        var index1 = list.indexOf(chunk1.names[0])
+        var index2 = list.indexOf(chunk2.names[0])
+        if (index2 === -1 || index1 < index2) return -1
+        if (index1 === -1 || index1 > index2) return 1
+        return 0
       }
     }),
     new CompressionPlugin({
