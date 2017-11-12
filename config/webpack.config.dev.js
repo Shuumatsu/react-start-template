@@ -17,6 +17,7 @@ module.exports = {
         pathinfo: true,
         filename: 'static/js/[name].js',
     },
+    stats: 'none',
     resolve: {
         extensions: ['.js', '.jsx', '.json'],
     },

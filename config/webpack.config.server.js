@@ -9,8 +9,11 @@ module.exports = {
     contentBase: paths.public,
     historyApiFallback: true,
     clientLogLevel: 'none',
+    noInfo: true,
     quiet: true,
+    stats: 'none',
     hot: true,
+    open: true,
     watchOptions: {
         ignored: /node_modules/
     }

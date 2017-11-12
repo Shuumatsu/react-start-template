@@ -3,6 +3,7 @@ const fsExtra = require('fs-extra')
 const webpack = require('webpack')
 const chalk = require('chalk')
 const gzipSize = require('gzip-size')
+const { filter, endsWith } = require('ramda')
 const paths = require('../config/paths')
 const config = require('../config/webpack.config.prod')
 
@@ -23,9 +24,15 @@ fsExtra.copySync(paths.public, paths.build, {
 })
 
 const printAssets = assets => {
-    // const maxNameLength = Math.max.apply(null, assets.map(asset => asset.name.length))
+    const notGzip = filter(asset => {
+        const name = asset.name
+        if (endsWith('.gz', name))
+            return false
+        return true
+    }, assets)
+
     console.log()
-    assets.forEach(asset => {
+    for (const asset of notGzip) {
         const filePath = path.resolve(paths.build, asset.name)
         const content = fsExtra.readFileSync(filePath)
         const gzippedSize = gzipSize.sync(content)
@@ -37,7 +44,7 @@ const printAssets = assets => {
         console.log(dirname + chalk.cyan(basename))
         console.log(` - gzipped size: ${gzippedSize}`)
         console.log(` - size on disk: ${asset.size}`)
-    })
+    }
     console.log()
 }
 
@@ -57,7 +64,6 @@ const handleCompile = (err, stats) => {
         info.errors.forEach(message => console.log(message))
         return
     }
-
 
     console.log(chalk.green('Compiled successfully!'))
 

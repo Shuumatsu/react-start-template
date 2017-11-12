@@ -1,10 +1,7 @@
 import { combineReducers } from 'redux'
-
-const example = (state = {}, action) => {
-
-    return state
-}
+import entitiesReducer from './entities'
 
 export default combineReducers({
-    example
+    entities: entitiesReducer
 })
+
