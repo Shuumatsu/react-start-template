@@ -8,12 +8,12 @@ const store = configureStore()
 
 const root = document.querySelector('#root')
 const render = () => ReactDOM.render((
-  <Provider store={store}>
-    <RootRouter />
-  </Provider>
+    <Provider store={store}>
+        <RootRouter />
+    </Provider>
 ), root)
 
 if (module.hot)
-  module.hot.accept('./routes/RootRouter', () => requestAnimationFrame(render))
+    module.hot.accept('./routes/RootRouter', () => requestAnimationFrame(render))
 
 render()

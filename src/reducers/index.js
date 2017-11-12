@@ -2,9 +2,9 @@ import { combineReducers } from 'redux'
 
 const example = (state = {}, action) => {
 
-  return state
+    return state
 }
 
 export default combineReducers({
-  example
+    example
 })

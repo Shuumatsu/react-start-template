@@ -7,9 +7,9 @@ import RootRouter from './routes/RootRouter'
 const store = configureStore()
 
 const render = () => ReactDOM.render((
-  <Provider store={store}>
-    <RootRouter />
-  </Provider>
+    <Provider store={store}>
+        <RootRouter />
+    </Provider>
 ), document.querySelector('#root'))
 
 render()
