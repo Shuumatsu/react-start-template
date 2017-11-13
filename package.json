@@ -2,8 +2,7 @@
   "scripts": {
     "start": "webpack-dashboard -- node scripts/devServer.js",
     "dev": "node scripts/devServer.js",
-    "build": "node scripts/build.js",
-    "qq": "webpack-dev-server --config config/"
+    "build": "node scripts/build.js"
   },
   "dependencies": {
     "core-js": "^2.5.1",
