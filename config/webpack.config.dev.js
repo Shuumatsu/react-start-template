@@ -1,6 +1,7 @@
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const paths = require('./paths')
+const babelConfig = require('./babel.config.dev')
 const postcssConfig = require('./postcss.config.dev')
 
 module.exports = {
@@ -38,7 +39,7 @@ module.exports = {
             test: /\.(js|jsx)$/,
             exclude: /-worker\.js$/,
             include: paths.appSrc,
-            use: [{ loader: 'babel-loader', options: { cacheDirectory: true } }]
+            use: [{ loader: 'babel-loader', options: { ...babelConfig, cacheDirectory: true, } }]
         }, {
             test: /\.less$/,
             use: [

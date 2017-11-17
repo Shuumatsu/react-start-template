@@ -4,6 +4,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const postcssConfig = require('./postcss.config.prod')
+const babelConfig = require('./babel.config.prod')
 const paths = require('./paths')
 
 module.exports = {
@@ -36,7 +37,7 @@ module.exports = {
             test: /\.(js|jsx)$/,
             exclude: /-worker\.js$/,
             include: paths.appSrc,
-            use: [{ loader: 'babel-loader', options: { cacheDirectory: true } }]
+            use: [{ loader: 'babel-loader', options: { ...babelConfig, cacheDirectory: true, } }]
         }, {
             test: /\.less$/,
             use: ExtractTextPlugin.extract({
@@ -73,6 +74,9 @@ module.exports = {
             children: true,
             async: true,
             minChunks: 3,
+        }),
+        new ExtractTextPlugin({
+            filename: 'static/css/[name].[hash:8].css'
         }),
         new HtmlWebpackPlugin({
             inject: true,

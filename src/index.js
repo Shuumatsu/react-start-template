@@ -1,5 +1,11 @@
-if (process.env.NODE_ENV === 'production') {
-    module.exports = require('./index.prod')
-} else {
-    module.exports = require('./index.dev')
-}
+import React from 'react'
+import ReactDOM from 'react-dom'
+import App from './App'
+
+const root = document.querySelector('#root')
+const render = () => ReactDOM.render(<App />, root)
+
+if (module.hot)
+    module.hot.accept('./App', () => requestAnimationFrame(render))
+
+render()
