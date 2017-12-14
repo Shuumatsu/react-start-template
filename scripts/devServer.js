@@ -1,8 +1,7 @@
 const webpack = require('webpack')
 const express = require('express')
 const detect = require('detect-port')
-const open = require('react-dev-utils/openBrowser')
-const moment = require('moment')
+const { format } = require('date-fns')
 const chalk = require('chalk')
 const { mapObjIndexed } = require('ramda')
 const createWebpackMiddleware = require('webpack-dev-middleware')
@@ -29,7 +28,7 @@ detect(defaultPort).then(port => {
     const compiler = webpack(config)
     compiler.plugin('invalid', (fileName, changeTime) => {
         console.log(chalk.blue.bold(
-            `\n--- ${moment(changeTime).format('MMMM Do YYYY, k:mm:ss')} ---\n`
+            `\n--- ${format(changeTime, 'MMMM Do YYYY, HH:mm:ss:SSS')} ---\n`
         ))
 
         console.log('File changed: \n')
@@ -38,7 +37,7 @@ detect(defaultPort).then(port => {
     })
     compiler.plugin('done', stats => {
         console.log(chalk.blue.bold(
-            `\n--- ${moment().format('MMMM Do YYYY, k:mm:ss')} ---\n`
+            `\n--- ${format(Date.now(), 'MMMM Do YYYY, HH:mm:ss:SSS')} ---\n`
         ))
 
         const info = stats.toJson()

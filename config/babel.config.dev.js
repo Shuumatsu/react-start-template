@@ -16,7 +16,13 @@ module.exports = {
         ]
     ],
     plugins: [
-        '@babel/plugin-transform-react-jsx-source',
-        '@babel/plugin-proposal-decorators'
+        '@babel/plugin-proposal-decorators',
+        [
+            '@babel/plugin-proposal-class-properties',
+            {
+                loose: true
+            }
+        ],
+        '@babel/plugin-transform-react-jsx-source'
     ]
 }
