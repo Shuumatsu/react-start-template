@@ -34,7 +34,7 @@ module.exports = {
         }, {
             test: /-worker\.js$/,
             include: paths.appSrc,
-            use: [{ loader: 'babel-loader' }, { loader: 'worker-loader' }],
+            use: [{ loader: 'babel-loader' }, { loader: 'workerize-loader' }],
         }, {
             test: /\.(js|jsx)$/,
             exclude: /-worker\.js$/,

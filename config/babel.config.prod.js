@@ -7,7 +7,7 @@ module.exports = {
             {
                 targets: {
                     browsers: [
-                        'ie > 10'
+                        'last 4 Chrome versions'
                     ]
                 },
                 spec: true,
@@ -21,15 +21,6 @@ module.exports = {
             '@babel/plugin-proposal-class-properties',
             {
                 loose: true
-            }
-        ],
-        [
-            '@babel/plugin-transform-runtime',
-            {
-                helpers: false,
-                polyfill: false,
-                regenerator: true,
-                moduleName: '@babel/runtime'
             }
         ]
     ]
