@@ -11,11 +11,13 @@ require('dotenv').config({ path: paths.dotenv })
 process.env.NODE_ENV = process.env.NODE_ENV || 'production'
 
 const processEnvForDefinePlugin = {}
-for (let key in process.env) processEnvForDefinePlugin[key] = JSON.stringify(process.env[key])
-config.plugins.unshift(new webpack.DefinePlugin({
-    'process.env': processEnvForDefinePlugin
-}))
-
+for (let key in process.env)
+    processEnvForDefinePlugin[key] = JSON.stringify(process.env[key])
+config.plugins.unshift(
+    new webpack.DefinePlugin({
+        'process.env': processEnvForDefinePlugin
+    })
+)
 
 fsExtra.removeSync(paths.build)
 fsExtra.copySync(paths.public, paths.build, {
@@ -26,8 +28,7 @@ fsExtra.copySync(paths.public, paths.build, {
 const printAssets = assets => {
     const notGzip = filter(asset => {
         const name = asset.name
-        if (endsWith('.gz', name))
-            return false
+        if (endsWith('.gz', name)) return false
         return true
     }, assets)
 

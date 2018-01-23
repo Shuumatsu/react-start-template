@@ -7,7 +7,6 @@ const themeManagers = new WeakMap()
 
 @autobind
 export class ThemeManager {
-
     constructor(themes = []) {
         const callbacks = new Map()
         themeManagers.set(this, callbacks)
@@ -27,15 +26,13 @@ export class ThemeManager {
 
     update(activeTheme) {
         this.activeTheme = activeTheme
-        compose(
-            forEach(callback => callback(activeTheme)),
-            Array.from
-        )(themeManagers.get(this))
+        compose(forEach(callback => callback(activeTheme)), Array.from)(
+            themeManagers.get(this)
+        )
     }
 }
 
 export class ThemeProvider extends PureComponent {
-
     static childContextTypes = {
         themeManager: PropTypes.instanceOf(ThemeManager)
     }
@@ -49,44 +46,44 @@ export class ThemeProvider extends PureComponent {
     }
 }
 
-export const withTheme = curry((themeManager, Wrapped) => class extends Wrapped {
+export const withTheme = curry(
+    (themeManager, Wrapped) =>
+        class extends Wrapped {
+            state = { theme: {} }
 
-    state = { theme: {} }
+            get themeManager() {
+                return themeManager
+            }
 
-    get themeManager() {
-        return themeManager
+            @autobind
+            setTheme(theme) {
+                this.setState({ theme })
+            }
+
+            componentDidMount() {
+                this.setTheme(this.themeManager.activeTheme)
+                this.subscription = this.themeManager.subscribe(this.setTheme)
+            }
+
+            componentWillUnmount() {
+                this.subscription.unSubscribe()
+            }
+
+            render() {
+                const theme = path(['state', 'theme'], this)
+                const propsToPassedDown = omit(['theme'], this.props)
+                return <Wrapped theme={theme} {...propsToPassedDown} />
+            }
+        }
+)
+
+export const connectTheme = Wrapped =>
+    class extends withTheme(null, Wrapped) {
+        static contextTypes = {
+            themeManager: PropTypes.instanceOf(ThemeManager)
+        }
+
+        get themeManager() {
+            return this.context.themeManager
+        }
     }
-
-    @autobind
-    setTheme(theme) {
-        this.setState({ theme })
-    }
-
-    componentDidMount() {
-        this.setTheme(this.themeManager.activeTheme)
-        this.subscription = this.themeManager.subscribe(this.setTheme)
-    }
-
-    componentWillUnmount() {
-        this.subscription.unSubscribe()
-    }
-
-    render() {
-        const theme = path(['state', 'theme'], this)
-        const propsToPassedDown = omit(['theme'], this.props)
-        return (
-            <Wrapped theme={theme} {...propsToPassedDown} />
-        )
-    }
-})
-
-export const connectTheme = Wrapped => class extends withTheme(null, Wrapped) {
-
-    static contextTypes = {
-        themeManager: PropTypes.instanceOf(ThemeManager)
-    }
-
-    get themeManager() {
-        return this.context.themeManager
-    }
-}

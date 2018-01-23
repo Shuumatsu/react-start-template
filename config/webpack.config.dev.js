@@ -7,64 +7,83 @@ const postcssConfig = require('./postcss.config.dev')
 module.exports = {
     entry: {
         ...paths.entries,
-        app: [
-            'webpack-hot-middleware/client',
-            paths.entries.app
-        ]
+        app: ['webpack-hot-middleware/client', paths.entries.app]
     },
     output: {
         path: paths.build,
         publicPath: paths.servedPath,
         pathinfo: true,
-        filename: 'static/js/[name].js',
+        filename: 'static/js/[name].js'
     },
     stats: 'none',
     resolve: {
-        extensions: ['.js', '.jsx', '.json'],
+        extensions: ['.js', '.jsx', '.json']
     },
     module: {
-        rules: [{
-            test: /\.(js|jsx)$/,
-            use: [{ loader: 'eslint-loader' }],
-            include: paths.appSrc,
-            enforce: 'pre'
-        }, {
-            test: /\.json$/,
-            use: [{ loader: 'json-loader' }]
-        }, {
-            test: /-worker\.js$/,
-            include: paths.appSrc,
-            use: [{ loader: 'babel-loader' }, { loader: 'workerize-loader' }],
-        }, {
-            test: /\.(js|jsx)$/,
-            exclude: /-worker\.js$/,
-            include: paths.appSrc,
-            use: [{ loader: 'babel-loader', options: { ...babelConfig, cacheDirectory: true, } }]
-        }, {
-            test: /\.less$/,
-            use: [
-                { loader: 'style-loader' },
-                { loader: 'css-loader' },
-                { loader: 'less-loader' }
-            ]
-        }, {
-            test: /\.module.css$/,
-            include: paths.appSrc,
-            use: [
-                { loader: 'style-loader' },
-                { loader: 'css-loader', options: { importLoaders: 1, module: true } },
-                { loader: 'postcss-loader', options: postcssConfig }
-            ]
-        }, {
-            test: /\.css$/,
-            use: [
-                { loader: 'style-loader' },
-                { loader: 'css-loader' }
-            ]
-        }, {
-            test: /\.(jpg|png|svg)$/,
-            use: [{ loader: 'file-loader', options: { name: 'static/media/[name].[hash:8].[ext]' } }]
-        }]
+        rules: [
+            {
+                test: /\.(js|jsx)$/,
+                use: [{ loader: 'eslint-loader' }],
+                include: paths.appSrc,
+                enforce: 'pre'
+            },
+            {
+                test: /\.json$/,
+                use: [{ loader: 'json-loader' }]
+            },
+            {
+                test: /-worker\.js$/,
+                include: paths.appSrc,
+                use: [
+                    { loader: 'babel-loader' },
+                    { loader: 'workerize-loader' }
+                ]
+            },
+            {
+                test: /\.(js|jsx)$/,
+                exclude: /-worker\.js$/,
+                include: paths.appSrc,
+                use: [
+                    {
+                        loader: 'babel-loader',
+                        options: { ...babelConfig, cacheDirectory: true }
+                    }
+                ]
+            },
+            {
+                test: /\.less$/,
+                use: [
+                    { loader: 'style-loader' },
+                    { loader: 'css-loader' },
+                    { loader: 'less-loader' }
+                ]
+            },
+            {
+                test: /\.module.css$/,
+                include: paths.appSrc,
+                use: [
+                    { loader: 'style-loader' },
+                    {
+                        loader: 'css-loader',
+                        options: { importLoaders: 1, module: true }
+                    },
+                    { loader: 'postcss-loader', options: postcssConfig }
+                ]
+            },
+            {
+                test: /\.css$/,
+                use: [{ loader: 'style-loader' }, { loader: 'css-loader' }]
+            },
+            {
+                test: /\.(jpg|png|svg)$/,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: { name: 'static/media/[name].[hash:8].[ext]' }
+                    }
+                ]
+            }
+        ]
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin(),

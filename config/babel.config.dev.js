@@ -6,9 +6,7 @@ module.exports = {
             '@babel/preset-env',
             {
                 targets: {
-                    browsers: [
-                        'last 2 Chrome versions'
-                    ]
+                    browsers: ['last 2 Chrome versions']
                 },
                 spec: true,
                 modules: false

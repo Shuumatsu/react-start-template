@@ -4,12 +4,12 @@ const detect = require('detect-port')
 const { format } = require('date-fns')
 const chalk = require('chalk')
 const { mapObjIndexed } = require('ramda')
+const Jarvis = require('webpack-jarvis')
 const createWebpackMiddleware = require('webpack-dev-middleware')
 const createWebpackHotMiddleware = require('webpack-hot-middleware')
-const DashboardPlugin = require('webpack-dashboard/plugin')
+const path = require('path')
 const serverConfig = require('../config/webpack.config.server')
 const paths = require('../config/paths')
-const path = require('path')
 const config = require('../config/webpack.config.dev')
 
 require('dotenv').config({ path: paths.dotenv })
@@ -21,49 +21,65 @@ config.plugins.unshift(
     })
 )
 
+const detectPort = (...ports) => Promise.all(ports.map(detect))
+const defaultJarvisPort = parseInt(process.env.JARVIS_PORT, 10) || 8000
 const defaultPort = parseInt(process.env.PORT, 10) || 9000
-detect(defaultPort).then(port => {
+detectPort(defaultPort, defaultJarvisPort).then(([port, jarvisPort]) => {
     console.log(chalk.magenta('Starting the development server...'))
+
+    config.plugins.unshift(
+        new Jarvis({
+            port: jarvisPort
+        })
+    )
 
     const compiler = webpack(config)
     compiler.plugin('invalid', (fileName, changeTime) => {
-        console.log(chalk.blue.bold(
-            `\n--- ${format(changeTime, 'MMMM Do YYYY, HH:mm:ss:SSS')} ---\n`
-        ))
+        console.log(
+            chalk.blue.bold(
+                `\n--- ${format(
+                    changeTime,
+                    'MMMM Do YYYY, HH:mm:ss:SSS'
+                )} ---\n`
+            )
+        )
 
         console.log('File changed: \n')
         console.log(chalk.yellow(`  ${fileName}`))
         console.log('\nRecompiling...\n')
     })
     compiler.plugin('done', stats => {
-        console.log(chalk.blue.bold(
-            `\n--- ${format(Date.now(), 'MMMM Do YYYY, HH:mm:ss:SSS')} ---\n`
-        ))
+        console.log(
+            chalk.blue.bold(
+                `\n--- ${format(
+                    Date.now(),
+                    'MMMM Do YYYY, HH:mm:ss:SSS'
+                )} ---\n`
+            )
+        )
 
         const info = stats.toJson()
 
         if (stats.hasErrors()) {
             console.log(chalk.red('Failed to compile.\n'))
-            for (const error of info.errors)
-                console.log(error)
+            for (const error of info.errors) console.log(error)
             console.log()
             return
         }
 
         if (stats.hasWarnings()) {
             console.log(chalk.yellow('Compiled with warnings.\n'))
-            for (const warning of info.warnings)
-                console.log(warning)
+            for (const warning of info.warnings) console.log(warning)
             console.log()
             return
         }
 
-
         console.log('The app is running at:\n')
         console.log(chalk.cyan(`  http://localhost:${port}`))
+        console.log('\nThe jarvis is running at:\n')
+        console.log(chalk.cyan(`  http://localhost:${jarvisPort}`))
         console.log('\nNote that the development build is not optimized.\n')
     })
-    compiler.apply(new DashboardPlugin())
 
     const webpackDevMiddleware = createWebpackMiddleware(compiler, serverConfig)
     const webpackHotMiddleware = createWebpackHotMiddleware(compiler)
@@ -88,5 +104,3 @@ detect(defaultPort).then(port => {
 
     app.listen(port)
 })
-
-

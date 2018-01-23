@@ -16,7 +16,8 @@ const paths = {
         app: rootPathResolve('src/index.js')
     },
     html: rootPathResolve('public/index.html'),
-    servedPath, dotenv
+    servedPath,
+    dotenv
 }
 
 module.exports = paths

@@ -9,71 +9,93 @@ const paths = require('./paths')
 
 module.exports = {
     entry: {
-        ...paths.entries,
+        ...paths.entries
     },
     output: {
         path: paths.build,
         publicPath: paths.servedPath,
         pathinfo: true,
-        filename: 'static/js/[name].[hash].js',
+        filename: 'static/js/[name].[hash].js'
     },
     resolve: {
-        extensions: ['.js', '.jsx', '.json'],
+        extensions: ['.js', '.jsx', '.json']
     },
     module: {
-        rules: [{
-            test: /\.(js|jsx)$/,
-            use: [{ loader: 'eslint-loader' }],
-            include: paths.appSrc,
-            enforce: 'pre'
-        }, {
-            test: /\.json$/,
-            use: [{ loader: 'json-loader' }]
-        }, {
-            test: /-worker\.js$/,
-            include: paths.appSrc,
-            use: [{ loader: 'babel-loader' }, { loader: 'workerize-loader' }],
-        }, {
-            test: /\.(js|jsx)$/,
-            exclude: /-worker\.js$/,
-            include: paths.appSrc,
-            use: [{ loader: 'babel-loader', options: { ...babelConfig, cacheDirectory: true, } }]
-        }, {
-            test: /\.less$/,
-            use: ExtractTextPlugin.extract({
-                fallback: 'style-loader',
+        rules: [
+            {
+                test: /\.(js|jsx)$/,
+                use: [{ loader: 'eslint-loader' }],
+                include: paths.appSrc,
+                enforce: 'pre'
+            },
+            {
+                test: /\.json$/,
+                use: [{ loader: 'json-loader' }]
+            },
+            {
+                test: /-worker\.js$/,
+                include: paths.appSrc,
                 use: [
-                    { loader: 'css-loader' },
-                    { loader: 'less-loader' }
+                    { loader: 'babel-loader' },
+                    { loader: 'workerize-loader' }
                 ]
-            })
-        }, {
-            test: /\.module.css$/,
-            include: paths.appSrc,
-            use: ExtractTextPlugin.extract({
-                fallback: 'style-loader',
+            },
+            {
+                test: /\.(js|jsx)$/,
+                exclude: /-worker\.js$/,
+                include: paths.appSrc,
                 use: [
-                    { loader: 'css-loader', options: { importLoaders: 1, module: true } },
-                    { loader: 'postcss-loader', options: postcssConfig }
+                    {
+                        loader: 'babel-loader',
+                        options: { ...babelConfig, cacheDirectory: true }
+                    }
                 ]
-            })
-        }, {
-            test: /\.css$/,
-            use: ExtractTextPlugin.extract({
-                fallback: 'style-loader',
-                use: [{ loader: 'css-loader' }]
-            })
-        }, {
-            test: /\.(jpg|png|svg)$/,
-            use: [{ loader: 'file-loader', options: { name: 'static/media/[name].[hash:8].[ext]' } }]
-        }]
+            },
+            {
+                test: /\.less$/,
+                use: ExtractTextPlugin.extract({
+                    fallback: 'style-loader',
+                    use: [{ loader: 'css-loader' }, { loader: 'less-loader' }]
+                })
+            },
+            {
+                test: /\.module.css$/,
+                include: paths.appSrc,
+                use: ExtractTextPlugin.extract({
+                    fallback: 'style-loader',
+                    use: [
+                        {
+                            loader: 'css-loader',
+                            options: { importLoaders: 1, module: true }
+                        },
+                        { loader: 'postcss-loader', options: postcssConfig }
+                    ]
+                })
+            },
+            {
+                test: /\.css$/,
+                use: ExtractTextPlugin.extract({
+                    fallback: 'style-loader',
+                    use: [{ loader: 'css-loader' }]
+                })
+            },
+            {
+                test: /\.(jpg|png|svg)$/,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: { name: 'static/media/[name].[hash:8].[ext]' }
+                    }
+                ]
+            }
+        ]
     },
     plugins: [
         new MinifyPlugin({}, { comments: false }),
         new webpack.optimize.CommonsChunkPlugin({
             children: true,
             async: true,
-            minChunks: 3,
+            minChunks: 3
         }),
         new ExtractTextPlugin({
             filename: 'static/css/[name].[hash:8].css'
