@@ -12,8 +12,8 @@ const paths = {
     public: rootPathResolve('public'),
     src: rootPathResolve('src'),
     entries: {
-        polyfills: rootPathResolve('src/polyfills.js'),
-        app: rootPathResolve('src/index.js')
+        polyfills: rootPathResolve('src/polyfills'),
+        app: rootPathResolve('src/index')
     },
     html: rootPathResolve('public/index.html'),
     servedPath,

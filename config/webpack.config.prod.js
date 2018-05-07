@@ -4,7 +4,6 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const postcssConfig = require('./postcss.config.prod')
-const babelConfig = require('./babel.config.prod')
 const paths = require('./paths')
 
 module.exports = {
@@ -18,7 +17,7 @@ module.exports = {
         filename: 'static/js/[name].[hash].js'
     },
     resolve: {
-        extensions: ['.js', '.jsx', '.json']
+        extensions: ['.bs.js', '.js', '.jsx', '.json']
     },
     module: {
         rules: [
@@ -35,10 +34,7 @@ module.exports = {
             {
                 test: /-worker\.js$/,
                 include: paths.appSrc,
-                use: [
-                    { loader: 'babel-loader' },
-                    { loader: 'workerize-loader' }
-                ]
+                use: [{ loader: 'babel-loader' }, { loader: 'workerize-loader' }]
             },
             {
                 test: /\.(js|jsx)$/,
@@ -47,7 +43,7 @@ module.exports = {
                 use: [
                     {
                         loader: 'babel-loader',
-                        options: { ...babelConfig, cacheDirectory: true }
+                        options: { cacheDirectory: true }
                     }
                 ]
             },

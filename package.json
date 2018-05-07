@@ -1,9 +1,11 @@
 {
     "scripts": {
         "start": "node scripts/devServer.js",
-        "build": "node scripts/build.js"
+        "build": "node scripts/build.js",
+        "prepare": "npm link bs-platform"
     },
     "dependencies": {
+        "bs-platform": "^3.0.0",
         "core-decorators": "^0.20.0",
         "core-js": "^2.5.3",
         "date-fns": "^1.29.0",
@@ -19,16 +21,15 @@
         "url-search-params-polyfill": "^2.0.2"
     },
     "devDependencies": {
-        "@babel/core": "^7.0.0-beta.37",
-        "@babel/plugin-proposal-decorators": "^7.0.0-beta.37",
-        "@babel/plugin-transform-classes": "^7.0.0-beta.37",
-        "@babel/plugin-transform-react-jsx-source": "^7.0.0-beta.37",
-        "@babel/plugin-transform-runtime": "^7.0.0-beta.37",
-        "@babel/preset-env": "^7.0.0-beta.37",
-        "@babel/preset-react": "^7.0.0-beta.37",
-        "@babel/preset-stage-2": "^7.0.0-beta.37",
-        "@babel/runtime": "^7.0.0-beta.37",
-        "babel-eslint": "^8.2.1",
+        "@babel/core": "^7.0.0-beta.46",
+        "@babel/plugin-proposal-class-properties": "^7.0.0-beta.46",
+        "@babel/plugin-proposal-do-expressions": "^7.0.0-beta.46",
+        "@babel/plugin-proposal-pipeline-operator": "^7.0.0-beta.46",
+        "@babel/plugin-proposal-throw-expressions": "^7.0.0-beta.46",
+        "@babel/preset-env": "^7.0.0-beta.46",
+        "@babel/preset-react": "^7.0.0-beta.46",
+        "@babel/preset-stage-0": "^7.0.0-beta.46",
+        "babel-eslint": "^8.0.0-alpha.17",
         "babel-loader": "^8.0.0-beta.0",
         "babel-minify-webpack-plugin": "^0.2.0",
         "chalk": "^2.3.0",
@@ -55,6 +56,7 @@
         "postcss-loader": "^2.0.10",
         "prettier": "^1.10.2",
         "react-dev-utils": "^4.2.1",
+        "reason-react": "^0.4.1",
         "redux-logger": "^3.0.6",
         "style-loader": "^0.19.1",
         "terminal-clear": "^0.1.0",

@@ -35,28 +35,14 @@ detectPort(defaultPort, defaultJarvisPort).then(([port, jarvisPort]) => {
 
     const compiler = webpack(config)
     compiler.plugin('invalid', (fileName, changeTime) => {
-        console.log(
-            chalk.blue.bold(
-                `\n--- ${format(
-                    changeTime,
-                    'MMMM Do YYYY, HH:mm:ss:SSS'
-                )} ---\n`
-            )
-        )
+        console.log(chalk.blue.bold(`\n--- ${format(changeTime, 'MMMM Do YYYY, HH:mm:ss:SSS')} ---\n`))
 
         console.log('File changed: \n')
         console.log(chalk.yellow(`  ${fileName}`))
         console.log('\nRecompiling...\n')
     })
     compiler.plugin('done', stats => {
-        console.log(
-            chalk.blue.bold(
-                `\n--- ${format(
-                    Date.now(),
-                    'MMMM Do YYYY, HH:mm:ss:SSS'
-                )} ---\n`
-            )
-        )
+        console.log(chalk.blue.bold(`\n--- ${format(Date.now(), 'MMMM Do YYYY, HH:mm:ss:SSS')} ---\n`))
 
         const info = stats.toJson()
 
@@ -87,8 +73,7 @@ detectPort(defaultPort, defaultJarvisPort).then(([port, jarvisPort]) => {
     const app = express()
     app.use(express.static(paths.build))
     app.use((req, res, next) => {
-        if (/service-worker/.test(req.url))
-            res.set('Service-Worker-Allowed', '/')
+        if (/service-worker/.test(req.url)) res.set('Service-Worker-Allowed', '/')
         next()
     })
     app.use(webpackDevMiddleware)

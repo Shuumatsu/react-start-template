@@ -11,8 +11,7 @@ require('dotenv').config({ path: paths.dotenv })
 process.env.NODE_ENV = process.env.NODE_ENV || 'production'
 
 const processEnvForDefinePlugin = {}
-for (let key in process.env)
-    processEnvForDefinePlugin[key] = JSON.stringify(process.env[key])
+for (let key in process.env) processEnvForDefinePlugin[key] = JSON.stringify(process.env[key])
 config.plugins.unshift(
     new webpack.DefinePlugin({
         'process.env': processEnvForDefinePlugin

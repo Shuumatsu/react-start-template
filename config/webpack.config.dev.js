@@ -1,7 +1,6 @@
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const paths = require('./paths')
-const babelConfig = require('./babel.config.dev')
 const postcssConfig = require('./postcss.config.dev')
 
 module.exports = {
@@ -34,10 +33,7 @@ module.exports = {
             {
                 test: /-worker\.js$/,
                 include: paths.appSrc,
-                use: [
-                    { loader: 'babel-loader' },
-                    { loader: 'workerize-loader' }
-                ]
+                use: [{ loader: 'babel-loader' }, { loader: 'workerize-loader' }]
             },
             {
                 test: /\.(js|jsx)$/,
@@ -46,17 +42,13 @@ module.exports = {
                 use: [
                     {
                         loader: 'babel-loader',
-                        options: { ...babelConfig, cacheDirectory: true }
+                        options: { cacheDirectory: true }
                     }
                 ]
             },
             {
                 test: /\.less$/,
-                use: [
-                    { loader: 'style-loader' },
-                    { loader: 'css-loader' },
-                    { loader: 'less-loader' }
-                ]
+                use: [{ loader: 'style-loader' }, { loader: 'css-loader' }, { loader: 'less-loader' }]
             },
             {
                 test: /\.module.css$/,
